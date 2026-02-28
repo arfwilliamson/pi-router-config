@@ -5,7 +5,6 @@ if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root (sudo)"
    exit 1
 fi
-
 echo "--- Starting Lab Router Restoration ---"
 
 # 2. Install necessary packages for your stack
@@ -15,12 +14,10 @@ apt update && apt install -y hostapd dnsmasq nftables
 # 3. Copy configuration files from etc into /etc
 echo "--- Syncing configuration files to /etc ---"
 cp -a etc/* /etc/
-chown root:root /etc/dnsmasq.conf
-chown root:root /etc/hostapd/hostapd.conf
 
 # 4. Deploy hostapd.conf from template
-echo "--- Deploying Hostapd Secret Config ---"
 if [ -f ~/router_secrets.sh ]; then
+    echo "--- Deploying Hostapd Secret Config ---"
     source ~/router_secrets.sh
     # Note: Target the template you just copied into /etc/hostapd/
     sudo sed -i -e "s/__SSID__/$WIFI_SSID/" \
@@ -31,7 +28,7 @@ else
 fi
 
 # 4. Handle Service States
-echo "Configuring services..."
+echo "--- Configuring services ---"
 
 # Unmask hostapd (Debian masks it by default on install)
 systemctl unmask hostapd
