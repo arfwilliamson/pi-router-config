@@ -1,0 +1,14 @@
+# Wi-Fi credentials
+wpa_supplicant.conf
+hostapd.conf
+
+# System secrets and logs
+*.log
+*.key
+.env
+/etc/shadow
+/etc/gshadow
+
+# OS-specific clutter
+.DS_Store
+__pycache__/

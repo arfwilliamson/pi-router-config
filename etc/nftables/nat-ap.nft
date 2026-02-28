@@ -1,0 +1,23 @@
+table ip nat {
+	chain postrouting {
+		type nat hook postrouting priority srcnat; policy accept;
+		oifname "wlan1" masquerade
+	}
+}
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy accept;
+		ct state established,related accept
+		iifname "wlan0" icmp type echo-request accept
+		iifname "wlan0" udp dport 67 accept
+		iifname "wlan0" ip saddr 192.168.4.0/24 udp dport 53 accept
+		iifname "wlan0" tcp dport 22 log prefix "SSH-Attempt: " level info accept
+		iifname "wlan0" ip saddr != 192.168.4.0/24 log prefix "Wifi-Alert: " level info drop
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy accept;
+		iifname "wlan1" oifname "wlan0" ct state established,related accept
+		iifname "wlan0" oifname "wlan1" accept
+	}
+}
