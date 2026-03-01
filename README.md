@@ -12,14 +12,14 @@ wlan1 using a 5GHz wifi dongle.
 ## Prerequisites
 1. Raspbian Trixie Lite 32 bit version
 2. Create a file in your home directory: `config.sh`
-3. Add your credentials to that file:
+3. Add credentials and sensitive information to that file:
    ```bash
-   export WIFI_SSID="MyRouterName"
-   export WIFI_PASS="MySecretPassword"
+   export WIFI_SSID="WiFiName"
+   export WIFI_PASS="WiFiPassword"
    # Fixed IP address for the router outside of the DHCP range below
-   export ROUTER_IP="MyRouterIPAddress"
-   # Since it will be used in a sed exprassion, escape the forward slash with two back slashes
-   export ROUTER_NET="MyRouterNetwork\\/24"
-   export ROUTER_MASK="MyRouterNetmask"
+   export ROUTER_IP="RouterIPAddress"
+   # Since it will be used in a sed expression, escape the forward slash with two back slashes
+   export ROUTER_NET="RouterNetwork\\/24"
+   export ROUTER_MASK="RouterNetmask"
    export DHCP_RANGE_START="StartIPAddress"
    export DHCP_RANGE_END="EndIPAddress"
