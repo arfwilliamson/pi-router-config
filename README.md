@@ -7,7 +7,7 @@ This should be easy with "nmcli dev wifi hotspot ifname wlp3s0" but that fails w
 
 This approach makes wlan0 unmanaged and uses simple configurations for the relevant
 daemons to setup a 2.5GHz wifi hotspot on wlan0 that connects to the main router on 
-wlan1 using a 5GHz wifi dongle.x
+wlan1 using a 5GHz wifi dongle.
 
 ## Prerequisites
 1. Raspbian Trixie Lite 32 bit version
