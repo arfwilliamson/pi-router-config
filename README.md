@@ -5,9 +5,9 @@ A secure, automated Raspberry Pi router setup using `hostapd`, `dnsmasq`, and `n
 This should be easy with "nmcli dev wifi hotspot ifname wlp3s0" but that fails with
 "Error: Connection activation failed: 802.1X supplicant took too long to authenticate."
 
-This approach make wlan0 unmanaged and then uses simple configurations for the relevant
-daemons to setup a 2.5GHz wifi hotspot on wlan0 that connects to the main router on wlan1
-using a 5GHz wifi dongle.
+This approach makes wlan0 unmanaged and uses simple configurations for the relevant
+daemons to setup a 2.5GHz wifi hotspot on wlan0 that connects to the main router on 
+wlan1 using a 5GHz wifi dongle.x
 
 ## Prerequisites
 1. Raspbian Trixie Lite 32 bit version
