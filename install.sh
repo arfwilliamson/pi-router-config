@@ -20,22 +20,22 @@ if [ -f config.sh ]; then
     sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
         -e "s/__DHCP_START__/$DHCP_RANGE_START/g" \
         -e "s/__DHCP_END__/$DHCP_RANGE_END/g" \
-        template/hotspot.conf.template > etc/dnsmasq.d/hotspot.conf
+        templates/hotspot.conf.template > etc/dnsmasq.d/hotspot.conf
     # etc/hostapd/hostapd.conf
     echo "etc/hostapd/hostapd.conf"
     sed -e "s/__SSID__/$WIFI_SSID/" \
         -e "s/__PASSWORD__/$WIFI_PASS/" \
-        template/hostapd.conf.template > etc/hostapd/hostapd.conf
+        templates/hostapd.conf.template > etc/hostapd/hostapd.conf
     # etc/systemd/network/08-wlan0.network
     echo "etc/systemd/network/08-wlan0.network"
     sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
-        template/08-wlan0.network.template > etc/systemd/network/08-wlan0.network
+        templates/08-wlan0.network.template > etc/systemd/network/08-wlan0.network
     # etc/nftables/nat-ap.nft
     echo "etc/nftables/nat-ap.nft"
     sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
         -e "s/__ROUTER_NET__/$ROUTER_NET/g" \
         -e "s/__ROUTER_MASK__/$ROUTER_MASK/g" \
-        template/nat-ap.nft.template > etc/nftables/nat-ap.nft
+        templates/nat-ap.nft.template > etc/nftables/nat-ap.nft
 else
     echo "WARNING: config.sh not found!"
 fi
