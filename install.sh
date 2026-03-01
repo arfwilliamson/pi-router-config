@@ -11,21 +11,38 @@ echo "--- Starting Lab Router Restoration ---"
 echo "Installing hostapd, dnsmasq, and nftables..."
 apt update && apt install -y hostapd dnsmasq nftables
 
-# 3. Copy configuration files from etc into /etc
+# 3. Deploy config files from templates
+if [ -f config.sh ]; then
+    echo "--- Deploying config ---"
+    source config.sh
+    # etc/dnsmasq.d/hotspot.conf
+    echo "etc/dnsmasq/hotspot.conf"
+    sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
+        -e "s/__DHCP_START__/$DHCP_RANGE_START/g" \
+        -e "s/__DHCP_END__/$DHCP_RANGE_END/g" \
+        template/hotspot.conf.template > etc/dnsmasq.d/hotspot.conf
+    # etc/hostapd/hostapd.conf
+    echo "etc/hostapd/hostapd.conf"
+    sed -e "s/__SSID__/$WIFI_SSID/" \
+        -e "s/__PASSWORD__/$WIFI_PASS/" \
+        template/hostapd.conf.template > etc/hostapd/hostapd.conf
+    # etc/systemd/network/08-wlan0.network
+    echo "etc/systemd/network/08-wlan0.network"
+    sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
+        template/08-wlan0.network.template > etc/systemd/network/08-wlan0.network
+    # etc/nftables/nat-ap.nft
+    echo "etc/nftables/nat-ap.nft"
+    sed -e "s/__ROUTER_IP__/$ROUTER_IP/g" \
+        -e "s/__ROUTER_NET__/$ROUTER_NET/g" \
+        -e "s/__ROUTER_MASK__/$ROUTER_MASK/g" \
+        template/nat-ap.nft.template > etc/nftables/nat-ap.nft
+else
+    echo "WARNING: config.sh not found!"
+fi
+
+# 4. Copy configuration files from etc into /etc
 echo "--- Syncing configuration files to /etc ---"
 cp -a etc/* /etc/
-
-# 4. Deploy hostapd.conf from template
-if [ -f ~/router_secrets.sh ]; then
-    echo "--- Deploying Hostapd Secret Config ---"
-    source ~/router_secrets.sh
-    # Note: Target the template you just copied into /etc/hostapd/
-    sudo sed -i -e "s/__SSID__/$WIFI_SSID/" \
-                -e "s/__PASSWORD__/$WIFI_PASS/" \
-                /etc/hostapd/hostapd.conf
-else
-    echo "WARNING: ~/router_secrets.sh not found!"
-fi
 
 # 4. Handle Service States
 echo "--- Configuring services ---"
