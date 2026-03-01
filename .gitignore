@@ -1,6 +1,10 @@
-# Wi-Fi credentials
-wpa_supplicant.conf
+# Sensitive information
+config.sh
+dnsmasq.conf
 hostapd.conf
+hotspot.conf
+nat-ap.nft
+08-wlan0.network
 
 # System secrets and logs
 *.log
